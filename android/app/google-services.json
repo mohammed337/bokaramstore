@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "735783950716",
+    "project_id": "bokaramstore-4ef20",
+    "storage_bucket": "bokaramstore-4ef20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735783950716:android:a646ea4dff0e1ea7a1ecf9",
+        "android_client_info": {
+          "package_name": "com.nram.bokaramstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735783950716-gav4t50u3f4la4b5n14ju4ge9ik5gk23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzaNLV2NXiqBaCaJce6ujpu15XBrst5JE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735783950716-gav4t50u3f4la4b5n14ju4ge9ik5gk23.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
