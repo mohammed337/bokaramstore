@@ -38,16 +38,16 @@ class _MyFavoriteState extends State<MyFavorite> {
      return SafeArea(
       top: true,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('favorite'.tr),centerTitle: true,),
+        // appBar: AppBar(
+        //   title: Text('favorite'.tr),centerTitle: true,),
         body:token!=null?
             StreamBuilder<Get_all_myfavorite_json>(
                 stream: _allNetworking
                     .get_all_myfavorite(lang: 'ar', limit: limit, page_number: 0, token_id: token)
                     .asStream(),
                 builder: (context, snapshot) {
+
                   if (snapshot.hasData) {
-                    print(snapshot.data.result.allFavourites);
 
                     return GridView.builder(
                       controller: _scrollController,
@@ -221,7 +221,7 @@ class _MyFavoriteState extends State<MyFavorite> {
                       .add_new_product(
                       id_product:int.parse(offers.offerId) ,
                       id_key: 1,
-                      token_id: token)
+                      token_id: token, count: '1')
                       .then((value) {
                         setState(() {
 

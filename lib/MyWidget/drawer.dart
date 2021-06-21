@@ -1,5 +1,6 @@
 import 'package:bokaramstore/SCR/about.dart';
 import 'package:bokaramstore/SCR/contactus.dart';
+import 'package:bokaramstore/SCR/get_all_products_category.dart';
 import 'package:bokaramstore/SCR/listOfCatSCR.dart';
 import 'package:bokaramstore/SCR/login.dart';
 import 'package:bokaramstore/SCR/myfavorite.dart';
@@ -7,6 +8,7 @@ import 'package:bokaramstore/SCR/myoldorder.dart';
 import 'package:bokaramstore/SCR/notificationScr.dart';
 import 'package:bokaramstore/Translation/Trans.dart';
 import 'package:bokaramstore/getdataromweb/allNetworking.dart';
+import 'package:bokaramstore/getdataromweb/catProvider.dart';
 import 'package:bokaramstore/jsondata/get_all_department_json.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,120 @@ class DR extends StatefulWidget {
 }
 
 class _DRState extends State<DR> {
+  List<Widget> list = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    for (int i = 0;
+    i < CatProvider.data.result.categories.length;
+    i++) {
+      list.add(listItem(
+          title: CatProvider.data.result.categories[i].categoryName,
+          id: CatProvider.data.result.categories[i].catId.toString(),
+          icontext:  CatProvider.data.result.categories[i].categoryImg,
+          departments:CatProvider.data.result.categories[i].departments));
+    }
+  }
+
+  Widget listItem(
+      {int index,
+        String title,
+        String id,
+        IconData icon,
+        String  icontext,
+        List<Departments> departments}) {
+    return Material(
+      color: Colors.transparent,
+      child: Theme(
+        data: ThemeData(accentColor: Colors.black),
+        child: ExpansionTile(
+          leading: InkWell(
+            onTap: (){
+              print("iiiiiiiiiiiiiiiiiiiiiiii");
+              if(departments.length==0){
+                Get.to(Get_All_Products_Category(
+                  id: id,
+                  name: title,
+                ));
+              }
+            },
+            child: Container(
+              width: 35,
+              height: 35,
+              child: Tab(
+                icon: Image.network(icontext),
+                //  Icons.departments[i].depId;
+              ),
+            ),
+          ),
+          title: InkWell(
+            onTap: (){
+              print("iiiiiiiiiiiiiiiiiiiiiiii");
+              if(departments.length==0){
+                Get.to(Get_All_Products_Category(
+                  id: id,
+                  name: title,
+                ));
+              }
+            },
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 17),
+            ),
+          ),
+          children: <Widget>[
+            for (int i = 0; i < departments.length; i++)
+              Padding(
+                padding: const EdgeInsets.only(top: 5.0, bottom: 8),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(ListOFDpScr(
+                      id: departments[i].depId,
+                      name: departments[i].depName,
+                    ));
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.91,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8, vertical: 15),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(1, 3),
+                              color: Colors.grey[300],
+                              blurRadius: 5),
+                          BoxShadow(
+                              offset: Offset(-1, -3),
+                              color: Colors.grey[300],
+                              blurRadius: 5)
+                        ]),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.image_rounded,
+                          size: 22,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          departments[i].depName,
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+          ],
+        ),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final GlobalKey expansionTileKey = GlobalKey();
@@ -30,81 +146,7 @@ class _DRState extends State<DR> {
       box.write('lang', 'ar');
     }
 
-    List<Widget> list = [];
-    Widget listItem(
-        {int index,
-        String title,
-        IconData icon,
-          String  icontext,
-        List<Departments> departments}) {
-      return Material(
-        color: Colors.transparent,
-        child: Theme(
-          data: ThemeData(accentColor: Colors.black),
-          child: ExpansionTile(
-            leading: Container(
-              width: 35,
-              height: 35,
-              child: Tab(
-                 icon: Image.network(icontext),
-              //  Icons.departments[i].depId;
-              ),
-            ),
-            title: Text(
-              title,
-              style: TextStyle(fontSize: 17),
-            ),
-            children: <Widget>[
-              for (int i = 0; i < departments.length; i++)
-                Padding(
-                  padding: const EdgeInsets.only(top: 5.0, bottom: 8),
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.to(ListOFDpScr(
-                        id: departments[i].depId,
-                        name: departments[i].depName,
-                      ));
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.91,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 15),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(1, 3),
-                                color: Colors.grey[300],
-                                blurRadius: 5),
-                            BoxShadow(
-                                offset: Offset(-1, -3),
-                                color: Colors.grey[300],
-                                blurRadius: 5)
-                          ]),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.image_rounded,
-                            size: 22,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            departments[i].depName,
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-            ],
-          ),
-        ),
-      );
-    }
+
 
     return ClipRRect(
       borderRadius: lang == 'ar'
@@ -113,21 +155,16 @@ class _DRState extends State<DR> {
           : BorderRadius.only(
               topRight: Radius.circular(60), bottomRight: Radius.circular(60)),
       child: Drawer(
-          child: FutureBuilder<Get_all_department_json>(
-              future: _allNetworking.get_all_department(
-                  token_id: token, lang: lang),
-              builder: (context, snapshot) {
-                list.clear();
-                if (snapshot.hasData) {
-                  for (int i = 0;
-                      i < snapshot.data.result.categories.length;
-                      i++) {
-                    list.add(listItem(
-                        title: snapshot.data.result.categories[i].categoryName,
-                        icontext:  snapshot.data.result.categories[i].categoryImg,
-                        departments:snapshot.data.result.categories[i].departments));
-                  }
-                  return ClipRRect(
+          child:
+          // FutureBuilder<Get_all_department_json>(
+          //     future: _allNetworking.get_all_department(
+          //         token_id: token, lang: lang),
+          //     builder: (context, snapshot) {
+          //       list.clear();
+          //       if (snapshot.hasData) {
+
+                  // return
+                    ClipRRect(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(60),
                         bottomLeft: Radius.circular(60)),
@@ -471,21 +508,23 @@ class _DRState extends State<DR> {
                         ),
                       ),
                     ),
-                  );
-                } else {
-                  print('ooooooooo');
-                  print(snapshot.error);
-                  return Container(
-                    child: Center(
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                  );
-                }
-              })),
+                  )
+                // } else {
+                //   print('ooooooooo');
+                //   print(snapshot.error);
+                //   return Container(
+                //     child: Center(
+                //       child: Container(
+                //         height: 50,
+                //         width: 50,
+                //         child: CircularProgressIndicator(),
+                //       ),
+                //     ),
+                //   );
+                // }
+              // }
+              // )
+    ),
     );
   }
 }

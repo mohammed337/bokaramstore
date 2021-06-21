@@ -65,7 +65,7 @@ class _AllItemsState extends State<AllItems> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldState,
-      drawer: DR(),
+      // drawer: DR(),
       appBar: AppBar(
         backgroundColor: Colors.blue[800],
         elevation: 0,
@@ -209,7 +209,7 @@ class _AllItemsState extends State<AllItems> {
                     .add_new_product(
                     id_product: int.parse(offers.offerId),
                     id_key: 1,
-                    token_id: token)
+                    token_id: token, count: '1')
                     .then((value) {
                   print(value.message);
                   setState(() {});
@@ -489,7 +489,7 @@ class _AllItemsState extends State<AllItems> {
                             .add_new_product(
                             id_product: int.parse(offers.offerId),
                             id_key: 1,
-                            token_id: token)
+                            token_id: token, count: '1')
                             .then((value) {
                           print(value.message);
                           setState(() {});

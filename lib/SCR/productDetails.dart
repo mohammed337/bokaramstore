@@ -29,6 +29,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   String token;
   List<Widget> itemSliders3 = [];
 
+  int count = 1;
+
   @override
   void initState() {
     token = box.read('token');
@@ -179,7 +181,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                widget.product_name,
+                                widget.product_name??'',
                                 //  textAlign: TextAlign.,
                                 style: TextStyle(
                                     fontSize: 22, color: Colors.black87),
@@ -273,10 +275,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             Row(
                               children: [
                                 Text(
-                                  snapshot.data.result.productsDetails[0]
-                                      .newPrice+' '+
-                                  snapshot.data.result.productsDetails[0]
-                                          .currencyName
+                                  "${snapshot.data.result.productsDetails[0].newPrice} ${snapshot.data.result.productsDetails[0].currencyName}"
                                      ,
                                   textDirection: TextDirection.rtl,
                                   style: TextStyle(
@@ -295,11 +294,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       ),
                                     ),
                                     Text(
-                                      snapshot.data.result.productsDetails[0]
-                                              .oldPrice +
-                                          ' ' +
-                                          snapshot.data.result
-                                              .productsDetails[0].currencyName,
+                                      "${snapshot.data.result.productsDetails[0].oldPrice} ${snapshot.data.result.productsDetails[0].currencyName}",
                                       style: TextStyle(
                                           fontSize: 18, color: Colors.grey),
                                     ),
@@ -316,8 +311,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       final link = WhatsAppUnilink(
                                         phoneNumber: snapshot.data.result
                                             .productsDetails[0].whatsapp,
-                                        text: 'طلب منتج ${snapshot.data.result.productsDetails[0].productDetails} ' +
-                                            'بسعر ${snapshot.data.result.productsDetails[0].newPrice} ',
+                                        text: 'طلب منتج ${snapshot.data.result.productsDetails[0].productDetails} '  'بسعر ${snapshot.data.result.productsDetails[0].newPrice} ',
                                       );
                                       // Convert the WhatsAppUnilink instance to a string.
                                       // Use either Dart's string interpolation or the toString() method.
@@ -382,14 +376,23 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          width: 50,height: 50,
-                                          decoration: BoxDecoration( color: Colors.grey,
-                                              borderRadius:BorderRadius.circular(5)),
-                                          child: Center(
-                                            child: Text(
-                                              '-',
-                                              style: TextStyle(fontSize: 20),
+                                        child: InkWell(
+                                          onTap: (){
+                                            if(count!=1){
+                                              setState(() {
+                                                count--;
+                                              });
+                                            }
+                                          },
+                                          child: Container(
+                                            width: 50,height: 50,
+                                            decoration: BoxDecoration( color: Colors.grey,
+                                                borderRadius:BorderRadius.circular(5)),
+                                            child: Center(
+                                              child: Text(
+                                                '-',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -402,7 +405,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                               borderRadius:BorderRadius.circular(5)),
                                           child: Center(
                                             child: Text(
-                                              '1',
+                                              count.toString(),
                                               style: TextStyle(fontSize: 20),
                                             ),
                                           ),
@@ -410,14 +413,23 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          width: 50,height: 50,
-                                          decoration: BoxDecoration( color: Colors.grey,
-                                              borderRadius:BorderRadius.circular(5)),
-                                          child: Center(
-                                            child: Text(
-                                              '+',
-                                              style: TextStyle(fontSize: 20),
+                                        child: InkWell(
+                                          onTap: (){
+                                            setState(() {
+                                              if(snapshot.data.result.productsDetails[0].stock != count.toString()) {
+                                                count++;
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                            width: 50,height: 50,
+                                            decoration: BoxDecoration( color: Colors.grey,
+                                                borderRadius:BorderRadius.circular(5)),
+                                            child: Center(
+                                              child: Text(
+                                                '+',
+                                                style: TextStyle(fontSize: 20),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -443,7 +455,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         id_product: snapshot
                                             .data.result.productsDetails[0].id,
                                         id_key: 1,
-                                        token_id: token)
+                                        token_id: token, count: count.toString())
                                     .then((value) {
                                   setState(() {});
                                   print(value.message);

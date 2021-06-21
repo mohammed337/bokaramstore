@@ -80,6 +80,7 @@ class AllSlider {
 class ProductsDetails {
   int exitCart;
   int favExit;
+  String stock;
   int displayType;
   String videoLink;
   int id;
@@ -95,6 +96,7 @@ class ProductsDetails {
   ProductsDetails(
       {this.exitCart,
         this.favExit,
+        this.stock,
         this.displayType,
         this.videoLink,
         this.id,
@@ -110,6 +112,7 @@ class ProductsDetails {
   ProductsDetails.fromJson(Map<String, dynamic> json) {
     exitCart = json['exit_cart'];
     favExit = json['fav_exit'];
+    stock = json['stock'];
     displayType = json['display_type'];
     videoLink = json['video_link'];
     id = json['id'];
@@ -127,6 +130,7 @@ class ProductsDetails {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['exit_cart'] = this.exitCart;
     data['fav_exit'] = this.favExit;
+    data['stock'] = this.stock;
     data['display_type'] = this.displayType;
     data['video_link'] = this.videoLink;
     data['id'] = this.id;

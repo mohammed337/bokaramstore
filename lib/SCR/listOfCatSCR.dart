@@ -296,7 +296,7 @@ class _ListOFDpScrState extends State<ListOFDpScr> {
                               .add_new_product(
                               id_product:int.parse(offers.offerId) ,
                               id_key: 1,
-                              token_id: token)
+                              token_id: token, count: '1')
                               .then((value) {
                             setState(() {
 

@@ -62,147 +62,147 @@ class _ClassifyState extends State<Classify> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldState,
-      drawer: DR(),
+      // drawer: DR(),
       //MyDrawertest(context, lang), //MyDrawer(context),
-      appBar: AppBar(
-        backgroundColor: Colors.blue[800],
-        elevation: 0,
-        centerTitle: true,
-        automaticallyImplyLeading:false,
-        title: Container(
-            width: size.width * .99,
-            child: Container(
-              height: MediaQuery.of(context).size.height * .1,
-              width: MediaQuery.of(context).size.height * .1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                          onTap:(){
-                            Get.to(Shopping_Cart());
-                          },
-                          child: Icon(Icons.notification_important,size: 28,)),
-
-                    ],
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Image.asset(
-                      'assets/images/log.png',
-                      color: Colors.white,
-                    ),
-                  ),
-
-                ],
-              ),
-            )),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: const CustomNotchedRectangle(),
-        child: Builder(
-          builder: (context) => Container(
-            height: 75,
-            child: Row(
-              //    mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TabItem(
-                  text: "home".tr,
-                  isSelected: selectedPosition == 0,
-                  icon: Icons.home,
-                  onPressed: () {
-                    Navigator.pop(context);
-                    setState(() {
-                      selectedPosition = 0;
-                    });
-                  },
-                ),
-                TabItem(
-                  text: 'favorite'.tr,
-                  isSelected: selectedPosition == 1,
-                  icon: Icons.favorite,
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyFavorite()));
-                    setState(() {
-                      selectedPosition = 1;
-                    });
-                  },
-                ),
-                SizedBox(
-                  width: size.width * .13,
-                ),
-                TabItem(
-                  text: 'mainsections'.tr,
-                  isSelected: selectedPosition == 2,
-                  icon: MyFlutterApp.categories,
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Classify()));
-                    setState(() {
-                      selectedPosition = 2;
-                    });
-                  },
-                ),
-                SizedBox(
-                  width: size.width * .07,
-                ),
-                GestureDetector(
-                  onTap: (){
-                    Scaffold.of(context).openDrawer();
-                  },
-                  child: Column(mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(width:55,height: 55,
-                          child: Tab(icon:Image.asset("assets/images/more.PNG",))),
-                      Text('more'.tr,style: TextStyle(
-                          color: selectedPosition== 3 ? Colors.blue[800] : Colors.grey,
-                          fontWeight: selectedPosition==3 ? FontWeight.w600 : FontWeight.normal,
-                          fontSize: 13
-                      ))
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: size.width * .01,
-                ),
-
-
-              ],
-            ),
-          ),
-        ),
-      ),
-      floatingActionButton: Container(
-        width: 60,
-        height: 60,
-        child: FloatingActionButton(
-          onPressed: () {
-            if (token == null) {
-              Get.to(LoginSCR());
-            } else {
-              if (offers.exitCart == 0) {
-                _allNetworking
-                    .add_new_product(
-                    id_product: int.parse(offers.offerId),
-                    id_key: 1,
-                    token_id: token)
-                    .then((value) {
-                  print(value.message);
-                  setState(() {});
-                  Get.snackbar('', value.message);
-                });
-              } else {
-                Get.to(Shopping_Cart());
-              }
-            }
-          },
-          backgroundColor: Colors.blue[800],
-          child: Icon(Icons.shopping_bag_outlined),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.blue[800],
+      //   elevation: 0,
+      //   centerTitle: true,
+      //   automaticallyImplyLeading:false,
+      //   title: Container(
+      //       width: size.width * .99,
+      //       child: Container(
+      //         height: MediaQuery.of(context).size.height * .1,
+      //         width: MediaQuery.of(context).size.height * .1,
+      //         child: Row(
+      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //           children: [
+      //             Row(
+      //               children: [
+      //                 GestureDetector(
+      //                     onTap:(){
+      //                       Get.to(Shopping_Cart());
+      //                     },
+      //                     child: Icon(Icons.notification_important,size: 28,)),
+      //
+      //               ],
+      //             ),
+      //             Container(
+      //               alignment: Alignment.centerLeft,
+      //               child: Image.asset(
+      //                 'assets/images/log.png',
+      //                 color: Colors.white,
+      //               ),
+      //             ),
+      //
+      //           ],
+      //         ),
+      //       )),
+      // ),
+      // bottomNavigationBar: BottomAppBar(
+      //   shape: const CustomNotchedRectangle(),
+      //   child: Builder(
+      //     builder: (context) => Container(
+      //       height: 75,
+      //       child: Row(
+      //         //    mainAxisSize: MainAxisSize.max,
+      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //         children: [
+      //           TabItem(
+      //             text: "home".tr,
+      //             isSelected: selectedPosition == 0,
+      //             icon: Icons.home,
+      //             onPressed: () {
+      //               Navigator.pop(context);
+      //               setState(() {
+      //                 selectedPosition = 0;
+      //               });
+      //             },
+      //           ),
+      //           TabItem(
+      //             text: 'favorite'.tr,
+      //             isSelected: selectedPosition == 1,
+      //             icon: Icons.favorite,
+      //             onPressed: () {
+      //               Navigator.push(context,
+      //                   MaterialPageRoute(builder: (context) => MyFavorite()));
+      //               setState(() {
+      //                 selectedPosition = 1;
+      //               });
+      //             },
+      //           ),
+      //           SizedBox(
+      //             width: size.width * .13,
+      //           ),
+      //           TabItem(
+      //             text: 'mainsections'.tr,
+      //             isSelected: selectedPosition == 2,
+      //             icon: MyFlutterApp.categories,
+      //             onPressed: () {
+      //               Navigator.push(context, MaterialPageRoute(builder: (context)=> Classify()));
+      //               setState(() {
+      //                 selectedPosition = 2;
+      //               });
+      //             },
+      //           ),
+      //           SizedBox(
+      //             width: size.width * .07,
+      //           ),
+      //           GestureDetector(
+      //             onTap: (){
+      //               Scaffold.of(context).openDrawer();
+      //             },
+      //             child: Column(mainAxisSize: MainAxisSize.max,
+      //               children: [
+      //                 Container(width:55,height: 55,
+      //                     child: Tab(icon:Image.asset("assets/images/more.PNG",))),
+      //                 Text('more'.tr,style: TextStyle(
+      //                     color: selectedPosition== 3 ? Colors.blue[800] : Colors.grey,
+      //                     fontWeight: selectedPosition==3 ? FontWeight.w600 : FontWeight.normal,
+      //                     fontSize: 13
+      //                 ))
+      //               ],
+      //             ),
+      //           ),
+      //           SizedBox(
+      //             width: size.width * .01,
+      //           ),
+      //
+      //
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // ),
+      // floatingActionButton: Container(
+      //   width: 60,
+      //   height: 60,
+      //   child: FloatingActionButton(
+      //     onPressed: () {
+      //       if (token == null) {
+      //         Get.to(LoginSCR());
+      //       } else {
+      //         if (offers.exitCart == 0) {
+      //           _allNetworking
+      //               .add_new_product(
+      //               id_product: int.parse(offers.offerId),
+      //               id_key: 1,
+      //               token_id: token, count: '1')
+      //               .then((value) {
+      //             print(value.message);
+      //             setState(() {});
+      //             Get.snackbar('', value.message);
+      //           });
+      //         } else {
+      //           Get.to(Shopping_Cart());
+      //         }
+      //       }
+      //     },
+      //     backgroundColor: Colors.blue[800],
+      //     child: Icon(Icons.shopping_bag_outlined),
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       body: Container(child: myhomee(i: _selectedIndex, size: size)),
     );

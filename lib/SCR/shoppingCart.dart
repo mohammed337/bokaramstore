@@ -1,10 +1,13 @@
+import 'package:bokaramstore/SCR/homeScr.dart';
 import 'package:bokaramstore/SCR/login.dart';
 import 'package:bokaramstore/getdataromweb/allNetworking.dart';
 import 'package:bokaramstore/jsondata/get_cart_json.dart';
+import 'package:bokaramstore/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'contactus.dart';
 import 'myorder.dart';
 
 class Shopping_Cart extends StatefulWidget {
@@ -29,359 +32,371 @@ class _Shopping_CartState extends State<Shopping_Cart> {
     print(token);
     var size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body:token!=null?  StreamBuilder<Get_cart_json>(
-          stream:
-              _allNetworking.get_cart(lang: lang, token_id: token).asStream(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data.result.orderDetails.length > 0) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: snapshot.data.result.allProducts.length,
-                          itemBuilder: (context, pos) {
-                            return Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Container(
-                                height: size.height * .25,
-                                width: size.width,
-                                child: Center(
-                                    child: Stack(
-                                  children: [
-                                    Align(
-                                        alignment: Alignment.center,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(10),
-                                                topRight: Radius.circular(10),
-                                                bottomLeft: Radius.circular(10),
-                                                bottomRight:
-                                                    Radius.circular(10)),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.blueAccent
-                                                    .withOpacity(0.5),
-                                                spreadRadius: 5,
-                                                blurRadius: 7,
-                                                offset: Offset(0,
-                                                    3), // changes position of shadow
-                                              ),
-                                            ],
-                                          ),
-                                          height: size.height * .2,
-                                          width: size.width * .9,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Image.network(
-                                                  snapshot.data.result
-                                                      .allProducts[pos].image,
-                                                  width: size.width * .3,
-                                                  height: size.height * .15,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 20, bottom: 2),
-                                                child: Column(
-                                                  children: [
-                                                    SingleChildScrollView(
-                                                      child: Container(
-                                                        height:
-                                                            size.height * .1,
-                                                        width: size.width * .3,
-                                                        child: Text(snapshot
-                                                            .data
-                                                            .result
-                                                            .allProducts[pos]
-                                                            .productName),
-                                                      ),
-                                                    ),
-                                                    Text(snapshot
-                                                            .data
-                                                            .result
-                                                            .allProducts[pos]
-                                                            .price +
-                                                        '  ' +
-                                                        snapshot
-                                                            .data
-                                                            .result
-                                                            .allProducts[pos]
-                                                            .currencyName)
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 20),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        _allNetworking
-                                                            .update_order(
-                                                                id_product: snapshot
-                                                                    .data
-                                                                    .result
-                                                                    .allProducts[
-                                                                        pos]
-                                                                    .idProduct,
-                                                                id_key: 1,
-                                                                token_id: token,
-                                                                lang: 'ar',
-                                                                id_order: snapshot
-                                                                    .data
-                                                                    .result
-                                                                    .orderDetails[
-                                                                        0]
-                                                                    .idOrder,
-                                                                quantity_new: 1)
-                                                            .then((value) {
-                                                          setState(() {});
-
-                                                          Get.snackbar('',
-                                                              value.message);
-                                                        });
-                                                      },
-                                                      child: Text('+',
-                                                          style: TextStyle(
-                                                              fontSize: 22,
-                                                              color: Colors
-                                                                  .black87,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
-                                                    ),
-                                                    Text(
-                                                        snapshot
-                                                            .data
-                                                            .result
-                                                            .allProducts[pos]
-                                                            .quantity
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 22,
-                                                            color:
-                                                                Colors.black87,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        _allNetworking
-                                                            .update_order(
-                                                                id_product: snapshot
-                                                                    .data
-                                                                    .result
-                                                                    .allProducts[
-                                                                        pos]
-                                                                    .idProduct,
-                                                                id_key: 2,
-                                                                token_id: token,
-                                                                lang: 'ar',
-                                                                id_order: snapshot
-                                                                    .data
-                                                                    .result
-                                                                    .orderDetails[
-                                                                        0]
-                                                                    .idOrder,
-                                                                quantity_new: 1)
-                                                            .then((value) {
-                                                          setState(() {});
-                                                          Get.snackbar('',
-                                                              value.message);
-                                                        });
-                                                      },
-                                                      child: Text('-',
-                                                          style: TextStyle(
-                                                              fontSize: 22,
-                                                              color: Colors
-                                                                  .black87,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )),
-                                    Positioned(
-                                        top: size.height * .01,
-                                        right: size.width * 0.05 - 10,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            _allNetworking
-                                                .add_new_product(
-                                                    id_product: snapshot
-                                                        .data
-                                                        .result
-                                                        .allProducts[pos]
-                                                        .idProduct,
-                                                    id_order: snapshot
-                                                        .data
-                                                        .result
-                                                        .orderDetails[0]
-                                                        .idOrder,
-                                                    id_key: 2,
-                                                    token_id: token)
-                                                .then((value) {
-                                              setState(() {});
-                                              Get.snackbar('', value.message);
-                                            });
-                                          },
+    return WillPopScope(
+      // ignore: missing_return
+      onWillPop: () {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeSCR()));
+        // Navigator.pop(context);
+        // setState(() {});
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("العربة"),
+          centerTitle: true,
+        ),
+        body:token!=null?  StreamBuilder<Get_cart_json>(
+            stream:
+                _allNetworking.get_cart(lang: lang, token_id: token).asStream(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data.result.orderDetails.length > 0) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: snapshot.data.result.allProducts.length,
+                            itemBuilder: (context, pos) {
+                              return Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: Container(
+                                  height: size.height * .25,
+                                  width: size.width,
+                                  child: Center(
+                                      child: Stack(
+                                    children: [
+                                      Align(
+                                          alignment: Alignment.center,
                                           child: Container(
-                                            height: 35,
-                                            width: 35,
-                                            color: Colors.red,
-                                            child: Center(
-                                                child: Text('X',
-                                                    style: TextStyle(
-                                                        fontSize: 22,
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold))),
-                                          ),
-                                        ))
-                                  ],
-                                )),
-                              ),
-                            );
-                          }),
-                    ),
-                    Container(
-                      child: Center(
-                        child: snapshot.data.result.orderDetails.length > 0
-                            ? Text(
-                                '${snapshot.data.result.orderDetails[0].totalPrice + " " + snapshot.data.result.orderDetails[0].currencyName}' +
-                                    'التكلفة الكلية ',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 20),
-                              )
-                            : Text(
-                                'التكلفه الكلية 0',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 20),
-                              ),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10),
+                                                  bottomLeft: Radius.circular(10),
+                                                  bottomRight:
+                                                      Radius.circular(10)),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.blueAccent
+                                                      .withOpacity(0.5),
+                                                  spreadRadius: 5,
+                                                  blurRadius: 7,
+                                                  offset: Offset(0,
+                                                      3), // changes position of shadow
+                                                ),
+                                              ],
+                                            ),
+                                            height: size.height * .2,
+                                            width: size.width * .9,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Image.network(
+                                                    snapshot.data.result
+                                                        .allProducts[pos].image,
+                                                    width: size.width * .3,
+                                                    height: size.height * .15,
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      top: 20, bottom: 2),
+                                                  child: Column(
+                                                    children: [
+                                                      SingleChildScrollView(
+                                                        child: Container(
+                                                          height:
+                                                              size.height * .1,
+                                                          width: size.width * .3,
+                                                          child: Text(snapshot
+                                                              .data
+                                                              .result
+                                                              .allProducts[pos]
+                                                              .productName),
+                                                        ),
+                                                      ),
+                                                      Text(snapshot
+                                                              .data
+                                                              .result
+                                                              .allProducts[pos]
+                                                              .price +
+                                                          '  ' +
+                                                          snapshot
+                                                              .data
+                                                              .result
+                                                              .allProducts[pos]
+                                                              .currencyName)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 20),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          _allNetworking
+                                                              .update_order(
+                                                                  id_product: snapshot
+                                                                      .data
+                                                                      .result
+                                                                      .allProducts[
+                                                                          pos]
+                                                                      .idProduct,
+                                                                  id_key: 1,
+                                                                  token_id: token,
+                                                                  lang: 'ar',
+                                                                  id_order: snapshot
+                                                                      .data
+                                                                      .result
+                                                                      .orderDetails[
+                                                                          0]
+                                                                      .idOrder,
+                                                                  quantity_new: 1)
+                                                              .then((value) {
+                                                            setState(() {});
+
+                                                            Get.snackbar('',
+                                                                value.message);
+                                                          });
+                                                        },
+                                                        child: Text('+',
+                                                            style: TextStyle(
+                                                                fontSize: 22,
+                                                                color: Colors
+                                                                    .black87,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                      ),
+                                                      Text(
+                                                          snapshot
+                                                              .data
+                                                              .result
+                                                              .allProducts[pos]
+                                                              .quantity
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 22,
+                                                              color:
+                                                                  Colors.black87,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          _allNetworking
+                                                              .update_order(
+                                                                  id_product: snapshot
+                                                                      .data
+                                                                      .result
+                                                                      .allProducts[
+                                                                          pos]
+                                                                      .idProduct,
+                                                                  id_key: 2,
+                                                                  token_id: token,
+                                                                  lang: 'ar',
+                                                                  id_order: snapshot
+                                                                      .data
+                                                                      .result
+                                                                      .orderDetails[
+                                                                          0]
+                                                                      .idOrder,
+                                                                  quantity_new: 1)
+                                                              .then((value) {
+                                                            setState(() {});
+                                                            Get.snackbar('',
+                                                                value.message);
+                                                          });
+                                                        },
+                                                        child: Text('-',
+                                                            style: TextStyle(
+                                                                fontSize: 22,
+                                                                color: Colors
+                                                                    .black87,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                      Positioned(
+                                          top: size.height * .01,
+                                          right: size.width * 0.05 - 10,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              _allNetworking
+                                                  .add_new_product(
+                                                      id_product: snapshot
+                                                          .data
+                                                          .result
+                                                          .allProducts[pos]
+                                                          .idProduct,
+                                                      id_order: snapshot
+                                                          .data
+                                                          .result
+                                                          .orderDetails[0]
+                                                          .idOrder,
+                                                      id_key: 2,
+                                                      token_id: token, count: '1')
+                                                  .then((value) {
+                                                setState(() {});
+                                                Get.snackbar('', value.message);
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 35,
+                                              width: 35,
+                                              color: Colors.red,
+                                              child: Center(
+                                                  child: Text('X',
+                                                      style: TextStyle(
+                                                          fontSize: 22,
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold))),
+                                            ),
+                                          ))
+                                    ],
+                                  )),
+                                ),
+                              );
+                            }),
+                      ),
+                      Container(
+                        child: Center(
+                          child: snapshot.data.result.orderDetails.length > 0
+                              ? Text(
+                                  '${snapshot.data.result.orderDetails[0].totalPrice + " " + snapshot.data.result.orderDetails[0].currencyName}' +
+                                      'التكلفة الكلية ',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 20),
+                                )
+                              : Text(
+                                  'التكلفه الكلية 0',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 20),
+                                ),
+                        ),
+                      ),
+                      snapshot.data.result.orderDetails.length > 0
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 50,
+                                    width: MediaQuery.of(context).size.width * .4,
+                                    child: Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          _allNetworking
+                                              .empty_cart(
+                                                  lang: 'ar',
+                                                  token_id: token,
+                                                  id_order: snapshot.data.result
+                                                      .orderDetails[0].idOrder)
+                                              .then((value) {
+                                            Get.snackbar('', value.message);
+                                            setState(() {});
+                                          });
+                                        },
+                                        child: Text('افراغ السلة',
+                                            style: TextStyle(
+                                                fontFamily: 'Arbf',
+                                                color: Colors.white,
+                                                fontSize: 23)),
+                                      ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                        color: Colors.blue[800],
+                                        borderRadius:
+                                            BorderRadius.circular(40.0)),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 50,
+                                    width: MediaQuery.of(context).size.width * .4,
+                                    child: Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          print(snapshot.data.result
+                                              .orderDetails[0].idOrder);
+                                          Get.to(Myorder(snapshot.data.result
+                                              .orderDetails[0].idOrder));
+                                        },
+                                        child: Text('عمل الطلب',
+                                            style: TextStyle(
+                                                fontFamily: 'Arbf',
+                                                color: Colors.white,
+                                                fontSize: 23)),
+                                      ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                        color: Colors.blue[800],
+                                        borderRadius:
+                                            BorderRadius.circular(40.0)),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : SizedBox()
+                    ],
+                  );
+                } else {
+                  return Container(
+                    color: Colors.white,
+                    child: Center(
+                      child: Image.asset(
+                        'assets/images/emptycart.png',
                       ),
                     ),
-                    snapshot.data.result.orderDetails.length > 0
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 50,
-                                  width: MediaQuery.of(context).size.width * .4,
-                                  child: Center(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        _allNetworking
-                                            .empty_cart(
-                                                lang: 'ar',
-                                                token_id: token,
-                                                id_order: snapshot.data.result
-                                                    .orderDetails[0].idOrder)
-                                            .then((value) {
-                                          Get.snackbar('', value.message);
-                                          setState(() {});
-                                        });
-                                      },
-                                      child: Text('افراغ السلة',
-                                          style: TextStyle(
-                                              fontFamily: 'Arbf',
-                                              color: Colors.white,
-                                              fontSize: 23)),
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                      color: Colors.blue[800],
-                                      borderRadius:
-                                          BorderRadius.circular(40.0)),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 50,
-                                  width: MediaQuery.of(context).size.width * .4,
-                                  child: Center(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        print(snapshot.data.result
-                                            .orderDetails[0].idOrder);
-                                        Get.to(Myorder(snapshot.data.result
-                                            .orderDetails[0].idOrder));
-                                      },
-                                      child: Text('عمل الطلب',
-                                          style: TextStyle(
-                                              fontFamily: 'Arbf',
-                                              color: Colors.white,
-                                              fontSize: 23)),
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                      color: Colors.blue[800],
-                                      borderRadius:
-                                          BorderRadius.circular(40.0)),
-                                ),
-                              ),
-                            ],
-                          )
-                        : SizedBox()
-                  ],
-                );
+                  );
+                }
               } else {
-                return Container(
-                  color: Colors.white,
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/emptycart.png',
-                    ),
-                  ),
-                );
+                return Center(
+                  child: Container(width: 100,height: 100,child: CircularProgressIndicator()),
+                );;
               }
-            } else {
-              return Center(
-                child: Container(width: 100,height: 100,child: CircularProgressIndicator()),
-              );;
-            }
-          }):Container(
-        child: Center(
-          child: GestureDetector(
-            onTap: () {
-              Get.to(LoginSCR());
-            },
-            child: Container(
-              height: 50,
-              width: 200,
-              child: Center(
-                child: Text( 'savep'.tr,
-                    style: TextStyle(
-                        fontFamily: 'Arbf',
-                        color: Colors.white,
-                        fontSize: 23)),
+            }):Container(
+          child: Center(
+            child: GestureDetector(
+              onTap: () {
+                Get.to(LoginSCR());
+              },
+              child: Container(
+                height: 50,
+                width: 200,
+                child: Center(
+                  child: Text( 'savep'.tr,
+                      style: TextStyle(
+                          fontFamily: 'Arbf',
+                          color: Colors.white,
+                          fontSize: 23)),
+                ),
+                decoration: BoxDecoration(color:  Colors.blue[800],
+                    borderRadius: BorderRadius.circular(40.0)),
               ),
-              decoration: BoxDecoration(color:  Colors.blue[800],
-                  borderRadius: BorderRadius.circular(40.0)),
             ),
           ),
-        ),
-      )
+        )
+      ),
     );
   }
 }

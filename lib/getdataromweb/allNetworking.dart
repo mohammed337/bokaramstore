@@ -26,6 +26,7 @@ import 'package:bokaramstore/jsondata/set_user_data_json.dart';
 import 'package:bokaramstore/jsondata/update_order_json.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 
 class AllNetworking {
@@ -273,6 +274,7 @@ class AllNetworking {
     @required int id_product,
     @required int id_key,
     @required String token_id,
+    @required String count,
     int id_order,
   }) async {
     Gdd_new_product_json data;
@@ -283,6 +285,7 @@ class AllNetworking {
       "id_key": id_key,
       "token_id": token_id,
       "id_order": id_order,
+      "quantity": count
     });
     await dio
         .post(
@@ -545,20 +548,32 @@ class AllNetworking {
     @required String token_id,
   }) async {
     Get_all_myfavorite_json data;
+    // http.Response response = await http.post(Uri.parse("$paseurl/store_api/get_all_myfavorite"),body: {
+      //   "key": "1234567890",
+      //   "lang": lang,
+      //   "limit": limit.toString(),
+      //   "page_number": page_number.toString(),
+      //   "token_id": token_id,
+    // });
+    // print("tttttttt${response.body}");
     FormData formData = new FormData.fromMap({
-      "mode": "formdata",
+      // "mode": "formdata",
       "key": "1234567890",
       "lang": lang,
-      "limit": limit,
-      "page_number": page_number,
+      "limit": limit.toString(),
+      "page_number": page_number.toString(),
       "token_id": token_id,
     });
+    print("oooooooooooooooooooooooo${limit}   $page_number   $token_id     $lang");
+
     await dio
         .post(
       paseurl + '/store_api/get_all_myfavorite',
       data: formData,
     )
         .then((value) {
+      print("oooooooooooooooooooooooo${value.data}");
+
       data = Get_all_myfavorite_json.fromJson(value.data);
     });
 

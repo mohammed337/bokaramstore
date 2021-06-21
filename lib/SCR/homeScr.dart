@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:bokaramstore/MyWidget/customwidget.dart';
 import 'package:bokaramstore/MyWidget/my_flutter_app_icons.dart';
 import 'package:bokaramstore/MyWidget/tabitem.dart';
+import 'package:bokaramstore/getdataromweb/catProvider.dart';
+import 'package:bokaramstore/jsondata/get_all_department_json.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rating_bar/rating_bar.dart';
 import 'package:share/share.dart';
@@ -58,7 +60,14 @@ class _HomeSCRState extends State<HomeSCR> {
     token = box.read('token');
     print(token);
     lang = box.read('lang');
-    LocalizationService().changeLocale(lang);
+Timer(Duration(seconds: 0), ()async{
+  await LocalizationService().changeLocale(lang);
+  // setState(() {
+    CatProvider.data = await _allNetworking.get_all_department(lang: lang, token_id: token);
+  // });
+  // print("rrrrrrrrrrrrrr${data.result.categories[0].categoryName}");
+});
+
   }
 
   @override
@@ -88,7 +97,7 @@ class _HomeSCRState extends State<HomeSCR> {
                     children: [
                       GestureDetector(
                           onTap:(){
-                            Get.to(Shopping_Cart());
+                            Get.to(NotificationScr());
                           },
                           child: Icon(Icons.notification_important,size: 28,)),
 
@@ -111,9 +120,10 @@ class _HomeSCRState extends State<HomeSCR> {
         child: Builder(
           builder: (context) => Container(
             height: 75,
+            // padding: EdgeInsets.symmetric(horizontal: 20),
             child: Row(
-              //    mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 mainAxisSize: MainAxisSize.max,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TabItem(
                   text: "home".tr,
@@ -132,22 +142,22 @@ class _HomeSCRState extends State<HomeSCR> {
                   isSelected: selectedPosition == 1,
                   icon: Icons.favorite,
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyFavorite()));
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => MyFavorite()));
                     setState(() {
                       selectedPosition = 1;
                     });
                   },
                 ),
                 SizedBox(
-                  width: size.width * .13,
+                  width: size.width * .10,
                 ),
                 TabItem(
                   text: 'mainsections'.tr,
                   isSelected: selectedPosition == 2,
                 icon: MyFlutterApp.categories,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Classify()));
+                    // Navigator.push(context, MaterialPageRoute(builder: (context)=> Classify()));
                     setState(() {
                       selectedPosition = 2;
                     });
@@ -171,35 +181,41 @@ class _HomeSCRState extends State<HomeSCR> {
                 //     ],
                 //   ),
                 // ),
+                // SizedBox(
+                //   width: size.width * .04,
+                // ),
+                // GestureDetector(
+                //   onTap: (){
+                //     Scaffold.of(context).openDrawer();
+                //   },
+                //   child: Container(
+                //     alignment: Alignment.topCenter,
+                //       child: Tab(icon:Column(
+                //         mainAxisAlignment: MainAxisAlignment.start,
+                //         children: [
+                //           SizedBox(height: 2,),
+                //           Image.asset("assets/images/more.PNG",height: 35,width: 35,fit: BoxFit.fill,),
+                //           Text('more'.tr,style: TextStyle(
+                //               // color: selectedPosition== 3 ? Colors.blue[800] : Colors.grey,
+                //               // fontWeight: selectedPosition==3 ? FontWeight.w600 : FontWeight.normal,
+                //               fontSize: 13
+                //           ))
+                //         ],
+                //       ))),
+                // ),
+                // SizedBox(
+                //   width: size.width * .01,
+                // ),
+               TabItem(
+                    text: "more".tr,
+                    isSelected: selectedPosition == 3,
+                    icon: Icons.more_horiz,
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    }),
                 SizedBox(
-                  width: size.width * .07,
+                  width: size.width * .05,
                 ),
-                GestureDetector(
-                  onTap: (){
-                               Scaffold.of(context).openDrawer();
-                  },
-                  child: Column(mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(width:55,height: 55,
-                          child: Tab(icon:Image.asset("assets/images/more.PNG",))),
-                      Text('more'.tr,style: TextStyle(
-                          color: selectedPosition== 3 ? Colors.blue[800] : Colors.grey,
-                          fontWeight: selectedPosition==3 ? FontWeight.w600 : FontWeight.normal,
-                          fontSize: 13
-                      ))
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: size.width * .01,
-                ),
-               // TabItem(
-               //      text: "more".tr,
-               //      isSelected: selectedPosition == 3,
-               //      icon: MyFlutterApp.repeat_grid_4,
-               //      onPressed: () {
-               //        Scaffold.of(context).openDrawer();
-               //      }),
               ],
             ),
           ),
@@ -213,20 +229,20 @@ class _HomeSCRState extends State<HomeSCR> {
             if (token == null) {
               Get.to(LoginSCR());
             } else {
-              if (offers.exitCart == 0) {
-                _allNetworking
-                    .add_new_product(
-                    id_product: int.parse(offers.offerId),
-                    id_key: 1,
-                    token_id: token)
-                    .then((value) {
-                  print(value.message);
-                  setState(() {});
-                  Get.snackbar('', value.message);
-                });
-              } else {
+              // if (offers.exitCart == 0) {
+              //   _allNetworking
+              //       .add_new_product(
+              //       id_product: int.parse(offers.offerId),
+              //       id_key: 1,
+              //       token_id: token)
+              //       .then((value) {
+              //     print(value.message);
+              //     setState(() {});
+              //     Get.snackbar('', value.message);
+              //   });
+              // } else {
                 Get.to(Shopping_Cart());
-              }
+              // }
             }
           },
           backgroundColor: Colors.blue[800],
@@ -235,7 +251,7 @@ class _HomeSCRState extends State<HomeSCR> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
-      body: Container(child: myhomee(i: _selectedIndex, size: size)),
+      body: Container(child: selectedPosition==1?MyFavorite():selectedPosition==2?Classify():myhomee(i: _selectedIndex, size: size)),
     );
   }
 
@@ -1213,8 +1229,8 @@ class _HomeSCRState extends State<HomeSCR> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                    child: Text(
-                        offers.newPrice + " " + offers.currencyName ?? " ")),
+                    child:
+                    Text("${offers.newPrice} ${offers.currencyName ?? " "}")),
                 Container(
                     child: Stack(
                   children: [
@@ -1226,7 +1242,7 @@ class _HomeSCRState extends State<HomeSCR> {
                         color: Colors.grey,
                       ),
                     ),
-                    Text(offers.oldPrice + " " + offers.currencyName,
+                    Text("${offers.oldPrice} ${offers.currencyName}",
                         style: TextStyle(fontSize: 18, color: Colors.grey)),
                   ],
                 ))
@@ -1242,7 +1258,7 @@ class _HomeSCRState extends State<HomeSCR> {
                         .add_new_product(
                             id_product: int.parse(offers.offerId),
                             id_key: 1,
-                            token_id: token)
+                            token_id: token, count: '1')
                         .then((value) {
                       print(value.message);
                       setState(() {});
@@ -1410,7 +1426,8 @@ class _HomeSCRState extends State<HomeSCR> {
                     child: Padding(
                   padding: const EdgeInsets.only(right: 8, left: 8),
                   child:
-                      Text(offers.newPrice + " " + offers.currencyName ?? " "),
+                      // Text(offers.newPrice + " " + offers.currencyName ?? " "),
+                      Text("${offers.newPrice} ${offers.currencyName==null?"":offers.currencyName}"),
                 )),
                 Text("/"),
                 Container(
@@ -1424,8 +1441,12 @@ class _HomeSCRState extends State<HomeSCR> {
                             color: Colors.grey,
                           ),
                         ),
+                        // Text(
+                        //   offers.oldPrice + " " + offers.currencyName ?? " ",
+                        //   style: TextStyle(fontSize: 18, color: Colors.grey),
+                        // ),
                         Text(
-                          offers.oldPrice + " " + offers.currencyName ?? " ",
+                          "${offers.oldPrice} ${offers.currencyName ?? " "}",
                           style: TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                       ],
@@ -1444,7 +1465,7 @@ class _HomeSCRState extends State<HomeSCR> {
                             .add_new_product(
                                 id_product: int.parse(offers.offerId),
                                 id_key: 1,
-                                token_id: token)
+                                token_id: token, count: '1')
                             .then((value) {
                           print(value.message);
                           setState(() {});
@@ -1694,7 +1715,7 @@ class _HomeSCRState extends State<HomeSCR> {
                               .add_new_product(
                                   id_product: int.parse(offers.productId),
                                   id_key: 1,
-                                  token_id: token)
+                                  token_id: token, count: '1')
                               .then((value) {
                             setState(() {});
                             Get.snackbar('', value.message);
