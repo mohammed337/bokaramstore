@@ -1,3 +1,4 @@
+import 'package:bokaramstore/SCR/homeScr.dart';
 import 'package:bokaramstore/getdataromweb/allNetworking.dart';
 import 'package:bokaramstore/jsondata/city_json.dart';
 import 'package:bokaramstore/jsondata/get_cities_json.dart';
@@ -57,210 +58,217 @@ String hintsex='';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:  StreamBuilder<Preparation_profile_json>(
-          stream: _allNetworking
-              .preparation_profile(lang: lang, token_id: token)
-              .asStream(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              name.text = snapshot.data.result.customerInfo.name;
-              phone.text = snapshot.data.result.customerInfo.phone;
-              address.text = snapshot.data.result.customerInfo.address;
-              email.text = snapshot.data.result.customerInfo.email;
+    return WillPopScope(
+      // ignore: missing_return
+      onWillPop: () {
+        Get.to(HomeSCR());
+      },
+      child: Scaffold(
+        appBar: AppBar(),
+        body:  StreamBuilder<Preparation_profile_json>(
+            stream: _allNetworking
+                .preparation_profile(lang: lang, token_id: token)
+                .asStream(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                name.text = snapshot.data.result.customerInfo.name;
+                phone.text = snapshot.data.result.customerInfo.phone;
+                address.text = snapshot.data.result.customerInfo.address;
+                email.text = snapshot.data.result.customerInfo.email;
 for(int i=0;i<list.length;i++){
   if(list[i].kindkey==snapshot.data.result.customerInfo.sex){
-    hintsex=list[i].kind;
+      hintsex=list[i].kind;
   }}
-    for(int i=0;i<citylist.length;i++){
+      for(int i=0;i<citylist.length;i++){
 
-    if(citylist[i].cityId==int.tryParse(snapshot.data.result.customerInfo.cityId)){
-    hintcety=citylist[i].cityName;
-    }
+      if(citylist[i].cityId==int.tryParse(snapshot.data.result.customerInfo.cityId)){
+      hintcety=citylist[i].cityName;
+      }
 }
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Myinput(
-                          hint: 'name'.tr,
-                          inputtype: TextInputType.name,
-                          textEditingController: name),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Myinput(
-                          hint: 'phone'.tr,
-                          textEditingController: phone,
-                          inputtype: TextInputType.phone),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Myinput(
-                          hint: 'mail'.tr,
-                          textEditingController: email,
-                          inputtype: TextInputType.emailAddress),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.all(Radius.circular(
-                              5.0) //         <--- border radius here
-                          ),
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
                         ),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Type'.tr),
-                            ),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            DropdownButton<Kind>(
-                              value: _kind,hint: Text(hintsex),
-                              icon: Icon(Icons.arrow_downward),
-                              iconSize: 24,
-                              elevation: 16,
-                              style: TextStyle(color: Colors.deepPurple),
-                              underline: Container(
-                                height: 2,
-                                color: Colors.deepPurpleAccent,
-                              ),
-                              onChanged: (Kind newValue) {
-                                setState(() {
-                                  _kind = newValue;
-                                });
-                              },
-                              items: list.map<DropdownMenuItem<Kind>>(
-                                      (Kind value) {
-                                    return DropdownMenuItem<Kind>(
-                                      value: value,
-                                      child: Text(value.kind),
-                                    );
-                                  }).toList(),
-                            ),
-                          ],
+                        Myinput(
+                            hint: 'name'.tr,
+                            inputtype: TextInputType.name,
+                            textEditingController: name),
+                        SizedBox(
+                          height: 8,
                         ),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.all(Radius.circular(
-                              5.0) //         <--- border radius here
-                          ),
+                        Myinput(
+                            hint: 'phone'.tr,
+                            textEditingController: phone,
+                            inputtype: TextInputType.phone),
+                        SizedBox(
+                          height: 8,
                         ),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('city'.tr),
-                            ),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            DropdownButton<CityDetailsprofile>(
-                              value: _cityDetailsprofile,hint: Text(hintcety),
-                              icon: Icon(Icons.arrow_downward),
-                              iconSize: 24,
-                              elevation: 16,
-                              style: TextStyle(color: Colors.deepPurple),
-                              underline: Container(
-                                height: 2,
-                                color: Colors.deepPurpleAccent,
-                              ),
-                              onChanged: (CityDetailsprofile newValue) {
-                                setState(() {
-                                  _cityDetailsprofile = newValue;
-                                });
-                              },
-                              items: citylist.map<
-                                  DropdownMenuItem<CityDetailsprofile>>(
-                                      (CityDetailsprofile value) {
-                                    return DropdownMenuItem<CityDetailsprofile>(
-                                      value: value,
-                                      child: Text(value.cityName),
-                                    );
-                                  }).toList(),
-                            ),
-                          ],
+                        Myinput(
+                            hint: 'mail'.tr,
+                            textEditingController: email,
+                            inputtype: TextInputType.emailAddress),
+                        SizedBox(
+                          height: 8,
                         ),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Myinput(
-                          hint: 'address'.tr,
-                          inputtype: TextInputType.name,
-                          textEditingController: address),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Myinput(
-                          hint: 'password'.tr, inputtype: TextInputType.name)
-                      ,   SizedBox(
-                        height: 8,
-                      ), savedata? Center(
-                  child: Container(width: 100,height: 100,child: CircularProgressIndicator()),
-                ) :GestureDetector(
-                        onTap: () {
-
-
-                          _allNetworking.edit_profile(phone: phone.text,
-                              token_id: token,
-                              lang: lang,
-
-                              city_id: _cityDetailsprofile==null?snapshot.data.result.customerInfo.cityId:_cityDetailsprofile.cityId
-
-                              ,
-                              address: address.text,
-
-                              fullname: name.text,
-                              email: email.text,
-                              password: password.text,
-                              sex: _kind==null?snapshot.data.result.customerInfo.sex:_kind.kindkey).then((value) {
-                                setState(() {
-
-                                });
-                              Get.snackbar('', value.message);
-                          });
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 200,
-                          child: Center(
-                            child: Text('save'.tr,
-                                style: TextStyle(
-                                    fontFamily: 'Arbf',
-                                    color: Colors.white,
-                                    fontSize: 23)),
-                          ),
+                        Container(
                           decoration: BoxDecoration(
-                              color: Colors.blue
-                              ,
-                              borderRadius: BorderRadius.circular(40.0)),
+                            border: Border.all(),
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //         <--- border radius here
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Type'.tr),
+                              ),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              DropdownButton<Kind>(
+                                value: _kind,hint: Text(hintsex),
+                                icon: Icon(Icons.arrow_downward),
+                                iconSize: 24,
+                                elevation: 16,
+                                style: TextStyle(color: Colors.deepPurple),
+                                underline: Container(
+                                  height: 2,
+                                  color: Colors.deepPurpleAccent,
+                                ),
+                                onChanged: (Kind newValue) {
+                                  setState(() {
+                                    _kind = newValue;
+                                  });
+                                },
+                                items: list.map<DropdownMenuItem<Kind>>(
+                                        (Kind value) {
+                                      return DropdownMenuItem<Kind>(
+                                        value: value,
+                                        child: Text(value.kind),
+                                      );
+                                    }).toList(),
+                              ),
+                            ],
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            } else {
-              return Center(
-                child: Container(width: 100,height: 100,child: CircularProgressIndicator()),
-              );
-            }
-          })
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //         <--- border radius here
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('city'.tr),
+                              ),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              DropdownButton<CityDetailsprofile>(
+                                value: _cityDetailsprofile,hint: Text(hintcety),
+                                icon: Icon(Icons.arrow_downward),
+                                iconSize: 24,
+                                elevation: 16,
+                                style: TextStyle(color: Colors.deepPurple),
+                                underline: Container(
+                                  height: 2,
+                                  color: Colors.deepPurpleAccent,
+                                ),
+                                onChanged: (CityDetailsprofile newValue) {
+                                  setState(() {
+                                    _cityDetailsprofile = newValue;
+                                  });
+                                },
+                                items: citylist.map<
+                                    DropdownMenuItem<CityDetailsprofile>>(
+                                        (CityDetailsprofile value) {
+                                      return DropdownMenuItem<CityDetailsprofile>(
+                                        value: value,
+                                        child: Text(value.cityName),
+                                      );
+                                    }).toList(),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Myinput(
+                            hint: 'address'.tr,
+                            inputtype: TextInputType.name,
+                            textEditingController: address),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Myinput(
+                            hint: 'password'.tr, inputtype: TextInputType.name)
+                        ,   SizedBox(
+                          height: 8,
+                        ), savedata? Center(
+                    child: Container(width: 100,height: 100,child: CircularProgressIndicator()),
+                  ) :GestureDetector(
+                          onTap: () {
 
+
+                            _allNetworking.edit_profile(phone: phone.text,
+                                token_id: token,
+                                lang: lang,
+
+                                city_id: _cityDetailsprofile==null?snapshot.data.result.customerInfo.cityId:_cityDetailsprofile.cityId
+
+                                ,
+                                address: address.text,
+
+                                fullname: name.text,
+                                email: email.text,
+                                password: password.text,
+                                sex: _kind==null?snapshot.data.result.customerInfo.sex:_kind.kindkey).then((value) {
+                                  setState(() {
+
+                                  });
+                                Get.snackbar('', value.message);
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 200,
+                            child: Center(
+                              child: Text('save'.tr,
+                                  style: TextStyle(
+                                      fontFamily: 'Arbf',
+                                      color: Colors.white,
+                                      fontSize: 23)),
+                            ),
+                            decoration: BoxDecoration(
+                                color: Colors.blue
+                                ,
+                                borderRadius: BorderRadius.circular(40.0)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                return Center(
+                  child: Container(width: 100,height: 100,child: CircularProgressIndicator()),
+                );
+              }
+            })
+
+      ),
     );
   }
 

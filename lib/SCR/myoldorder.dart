@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bokaramstore/getdataromweb/allNetworking.dart';
+import 'package:bokaramstore/getdataromweb/catProvider.dart';
 import 'package:bokaramstore/jsondata/get_old_orders_json.dart';
 import 'package:bokaramstore/jsondata/get_order_details_json.dart';
 import 'package:bokaramstore/jsondata/get_products_details_json.dart';
@@ -23,6 +26,17 @@ class _OldOrdersState extends State<OldOrders> {
     super.initState();
     token = box.read('token');
     lang = box.read('lang');
+    // Timer(Duration(seconds: 0), () async {
+    //   Map mapR = await _allNetworking.get_order_details(
+    //       id_order: "24",
+    //       token_id: token,
+    //       lang: 'ar');
+    //   setState(() {
+    //
+    //   });
+    //   // Map map = await CatProvider.orders;
+    //   print("oooooooooooooo${mapR}");
+    // });
   }
 
   List<List<Widget>> list = [];
@@ -238,7 +252,7 @@ class _OldOrdersState extends State<OldOrders> {
                                           padding: const EdgeInsets.only(
                                               left: 16, right: 16),
                                           child: Text(snapshot.data.result
-                                              .orderDetails[pos].date),
+                                              .orderDetails[pos].date??""),
                                         ),
                                       ],
                                     ),
@@ -271,25 +285,24 @@ class _OldOrdersState extends State<OldOrders> {
                                         ),
                                       ],
                                     ),
-                                    FutureBuilder<Get_order_details_json>(
+                                    FutureBuilder(
                                         future:
                                             _allNetworking.get_order_details(
                                                 id_order: snapshot.data.result
-                                                    .orderDetails[pos].idOrder,
+                                                    .orderDetails[pos].idOrder.toString(),
                                                 token_id: token,
                                                 lang: 'ar'),
-                                        builder: (context, snapshot) {
-                                          List<Widget> list = [];
-                                          if (snapshot.hasData) {
+                                        builder: (context, snapshot2) {
+                                          // print(snapshot2.data);
+                                          if (snapshot2.hasData) {
+                                            List<Widget> list = [];
                                             for (int i = 0;
                                                 i <
-                                                    snapshot.data.result
-                                                        .allProducts.length;
+                                                    snapshot2.data["result"]["all_products"].length;
                                                 i++) {
                                               list.add(Productsiteem(
                                                   size: size,
-                                                  offers: snapshot.data.result
-                                                      .allProducts[i]));
+                                                  offers: snapshot2.data['result']["all_products"][i]));
                                             }
                                             return ExpansionTile(
                                               title: Text('تفاصيل'),
@@ -298,7 +311,7 @@ class _OldOrdersState extends State<OldOrders> {
                                           } else {
                                             return Center(
                                               child: Container(width: 100,height: 100,child: CircularProgressIndicator()),
-                                            );;
+                                            );
                                           }
                                         })
                                   ],
@@ -340,7 +353,7 @@ class _OldOrdersState extends State<OldOrders> {
     );
   }
 
-  Widget Productsiteem({AllProducts offers, size}) {
+  Widget Productsiteem({offers, size}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -368,7 +381,7 @@ class _OldOrdersState extends State<OldOrders> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Image.network(
-                offers.image,
+                offers['image'],
                 width: size.width * .3,
                 height: size.height * .15,
                 fit: BoxFit.fill,
@@ -382,10 +395,10 @@ class _OldOrdersState extends State<OldOrders> {
                     child: Container(
                       height: size.height * .1,
                       width: size.width * .3,
-                      child: Text(offers.productName),
+                      child: Text(offers['product_name']),
                     ),
                   ),
-                  Text(offers.price + '  ' + offers.currencyName)
+                  Text("${offers['price']} ${offers["currencyName"]}")
                 ],
               ),
             ),
@@ -394,7 +407,7 @@ class _OldOrdersState extends State<OldOrders> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(offers.quantity.toString(),
+                  Text(offers["quantity"].toString(),
                       style: TextStyle(
                           fontSize: 22,
                           color: Colors.black87,

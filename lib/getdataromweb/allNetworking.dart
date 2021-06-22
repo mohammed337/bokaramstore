@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bokaramstore/jsondata/add_new_product_json.dart';
 import 'package:bokaramstore/jsondata/add_review_json.dart';
 import 'package:bokaramstore/jsondata/cancel_order_json.dart';
@@ -580,8 +582,8 @@ class AllNetworking {
     return data;
   }
 
-  Future<Get_order_details_json> get_order_details({
-    @required int id_order,
+  Future<Map> get_order_details({
+    @required String id_order,
     @required String lang,
     @required String token_id,
   }) async {
@@ -589,20 +591,44 @@ class AllNetworking {
     FormData formData = new FormData.fromMap({
       "mode": "formdata",
       "key": "1234567890",
-      "id_order": id_order,
+      "id_order": id_order.toString(),
       "lang": lang,
       "token_id": token_id,
     });
+    // Map formData = {
+    //   "mode": "formdata",
+    //   "key": "1234567890",
+    //   "id_order": id_order,
+    //   "lang": lang,
+    //   "token_id": token_id,
+    // };
+    // print("uuuuuuuuuu${formData}");
+    //
+    // http.Response response = await http.post("https://bokaramstore.com/store_api/get_order_details",body: {formData});
+    // print("uuuuuuuuuu${response}");
+    //
+    // Map mapResponse = json.decode(response.body);
+    // print(mapResponse);
+    // return mapResponse;
+    // print(formData.fields);
+    Map mapResponse;
     await dio
         .post(
       paseurl + '/store_api/get_order_details',
       data: formData,
     )
         .then((value) {
-      data = Get_order_details_json.fromJson(value.data);
+          mapResponse = value.data;
+      // print("yyyyyyyyyyyyyyy${mapResponse}");
+
+
+      // data = Get_order_details_json.fromJson(value.data);
+      print("yyyyyyyyyyyyyyy${value.data['result']['all_products']}");
+
     });
-    //  print(data.result.contactInfo[0].);
-    return data;
+    return mapResponse;
+
+    // print("iiiiiiiiiiiiiiiiiiii${data.result.allProducts[0].currencyName}");
   }
 
   Future<Add_review_json> add_review({

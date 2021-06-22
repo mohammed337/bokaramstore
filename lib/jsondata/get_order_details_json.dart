@@ -65,7 +65,7 @@ class OrderDetails {
   String totalPrice;
   String totalProduct;
   String shippingCharges;
-  int totalPriceShippingCharges;
+  double totalPriceShippingCharges;
   String currencyName;
   String date;
   String viewStore;

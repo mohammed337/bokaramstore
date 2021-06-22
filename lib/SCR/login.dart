@@ -1,4 +1,5 @@
 import 'package:bokaramstore/MyWidget/mybath.dart';
+import 'package:bokaramstore/SCR/profileScr.dart';
 import 'package:bokaramstore/SCR/sginup.dart';
 import 'package:bokaramstore/getdataromweb/allNetworking.dart';
 import 'package:bokaramstore/getdataromweb/push_notifcation.dart';
@@ -121,7 +122,9 @@ class _LoginSCRState extends State<LoginSCR> {
                                           value.result.customerInfo.email);
                                       await box.write(
                                           'id', value.result.customerInfo.id);
-                                      Navigator.of(context).popUntil((route) => route.isFirst);
+                                      // Navigator.of(context).popUntil((route) => route.isFirst);
+                                      Get.to(ProfileScr());
+
                                       // Navigator.pushAndRemoveUntil(
                                       //     context,
                                       //     new MaterialPageRoute(
@@ -176,8 +179,9 @@ class _LoginSCRState extends State<LoginSCR> {
                             ),
                             GestureDetector(
                               onTap: () {
-                               // Get.to(HomeSCR());
-                                Navigator.of(context).popUntil((route) => route.isFirst);     },
+                               Get.to(ProfileScr());
+                               //  Navigator.of(context).popUntil((route) => route.isFirst);
+                                },
                               child: Container(
                                 height: 50,
                                 width: 200,

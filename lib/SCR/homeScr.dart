@@ -75,6 +75,7 @@ Timer(Duration(seconds: 0), ()async{
     var size = MediaQuery.of(context).size;
     lang = box.read('lang');
     GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+    String token = box.read('token');
 
     return Scaffold(
       key: _scaffoldState,
@@ -97,9 +98,15 @@ Timer(Duration(seconds: 0), ()async{
                     children: [
                       GestureDetector(
                           onTap:(){
-                            Get.to(NotificationScr());
+                            Get.to(token!=null?NotificationScr():LoginSCR());
                           },
                           child: Icon(Icons.notification_important,size: 28,)),
+                      SizedBox(width: 10,),
+                      GestureDetector(
+                          onTap:(){
+                            Get.to(token!=null?ProfileScr():LoginSCR());
+                          },
+                          child: Icon(Icons.person,size: 28,)),
 
                     ],
                   ),
