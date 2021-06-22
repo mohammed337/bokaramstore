@@ -231,36 +231,36 @@ class _DRState extends State<DR> {
                             //          ),
                             //        ],
                             //      )),
-                            GestureDetector(
-                                onTap: () {
-                                  Get.to(MyFavorite());
-                                },
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 8,
-                                          bottom: 8,
-                                          left: 14,
-                                          right: 14),
-                                      child: Icon(
-                                        Icons.favorite,
-                                        color: Colors.red,
-                                        size: 35,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text('favorite'.tr,
-                                          style: TextStyle(
-                                              fontSize: 24,
-                                              color: Colors.blue)),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(
-                              height: 5,
-                            ),
+                            // GestureDetector(
+                            //     onTap: () {
+                            //       Get.to(MyFavorite());
+                            //     },
+                            //     child: Row(
+                            //       children: [
+                            //         Padding(
+                            //           padding: const EdgeInsets.only(
+                            //               top: 8,
+                            //               bottom: 8,
+                            //               left: 14,
+                            //               right: 14),
+                            //           child: Icon(
+                            //             Icons.favorite,
+                            //             color: Colors.red,
+                            //             size: 35,
+                            //           ),
+                            //         ),
+                            //         Padding(
+                            //           padding: const EdgeInsets.all(8),
+                            //           child: Text('favorite'.tr,
+                            //               style: TextStyle(
+                            //                   fontSize: 24,
+                            //                   color: Colors.blue)),
+                            //         ),
+                            //       ],
+                            //     )),
+                            // SizedBox(
+                            //   height: 5,
+                            // ),
                             GestureDetector(
                                 onTap: () {
                                   Get.to(NotificationScr ());
