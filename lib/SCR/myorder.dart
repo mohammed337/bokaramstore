@@ -215,6 +215,7 @@ setState(() {
                     )
                         : GestureDetector(
                             onTap: () {
+                              if(city!=null){
                               print(token);
                               senddata = true;
                               setState(() {});
@@ -233,6 +234,9 @@ setState(() {
                                 senddata = false;
                                 setState(() {});
                               });
+                              }else{
+                                Get.snackbar('', "من فضلك اختار المدينة");
+                              }
                             },
                             child: Container(
                               height: 50,
